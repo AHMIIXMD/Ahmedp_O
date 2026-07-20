@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Helper function for Premium Small Caps text
+// Helper function for small caps text
 const toSmallCaps = (text) => {
     if (!text || typeof text !== 'string') return '';
     const smallCapsMap = {
@@ -21,13 +21,13 @@ const toSmallCaps = (text) => {
     return text.toLowerCase().split('').map(char => smallCapsMap[char] || char).join('');
 };
 
-// --- HACKER TERMINAL CATEGORY STYLE ---
+// --- PREMIUM SHADOW CATEGORY STYLE ---
 const formatCategory = (category, cmds) => {
     const validCmds = cmds.filter(cmd => cmd.pattern && cmd.pattern.trim() !== '');
     if (validCmds.length === 0) return ''; 
     
-    let title = `\n//--- ${category.toUpperCase()} _\n`;
-    let body = validCmds.map(cmd => `$ ${cmd.pattern}`).join('\n');
+    let title = `\n*✦ ─── [ ${category.toUpperCase()} ] ─── ✦*\n`;
+    let body = validCmds.map(cmd => `*🔹* \`${cmd.pattern}\``).join('\n');
     return `${title}${body}\n`;
 };
 
@@ -35,7 +35,7 @@ cmd({
     pattern: "menu",
     alias: ["m", "help", "allmenu"],
     category: "main",
-    react: "💀",
+    react: "🚩",
     filename: __filename
 },
 async (conn, mek, m, { from, pushname, reply }) => {
@@ -47,24 +47,22 @@ async (conn, mek, m, { from, pushname, reply }) => {
             menuSections += formatCategory(cat, catCmds);
         });
 
-        const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
+        const BOT_NAME = config.BOT_NAME || "LAVENDER-MD";
         const uptime = runtime(process.uptime());
 
-        // --- CYBER TERMINAL INTERFACE ---
+        // --- EXCLUSIVE SHADOW INTERFACE ---
         let dec = `
-[+] ROOT@${BOT_NAME.toUpperCase()}:~
+*✨ ${BOT_NAME.toUpperCase()} PREMIUM ✨*
 
-> INJECTING DETAILS...
-> ACCESS GRANTED TO: ${pushname || 'User'}
+*⚡ USER:* ${pushname || 'User'}
+*⚡ OWNER:* ${config.OWNER_NAME || "Ahmad Hassan"}
+*⚡ UPTIME:* ${uptime}
+*⚡ COMMANDS:* ${Object.keys(commands).length}
+*⚡ MODE:* ${config.MODE || "Public"}
 
-# SYSTEM_INFO:
-- OPERATOR : ${config.OWNER_NAME || "Ahmad Hassan"}
-- RUNTIME  : ${uptime}
-- MODULES  : ${Object.keys(commands).length}
-- STATUS   : ${config.MODE || "Public"}
-
+────────────────────────
 ${menuSections}
-# BYPASS_COMPLETED.
+────────────────────────
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ ʜᴀssᴀɴ*`;
 
         // Image URL Selection
@@ -97,4 +95,3 @@ ${menuSections}
         reply(`Error: ${e.message}`); 
     } 
 });
- 
