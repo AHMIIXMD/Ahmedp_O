@@ -48,14 +48,14 @@ async (conn, mek, m, { from, pushname, reply }) => {
         });
 
         const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
+        const OWNER_NAME = config.OWNER_NAME || "AHMAD HASSAN";
         const uptime = runtime(process.uptime());
 
-        // --- SCREENSHOT EXACT MATCH DESIGN WITH YOUR CHANGES ---
+        // --- NEW ORDER: BOT NAME FIRST, THEN OWNER & DETAILS ---
         let dec = `
-✨ *HASSAN 🚩* ✨
+✨ *${BOT_NAME.toUpperCase()}* ✨
 
-⚡ *BOT NAME:* ${BOT_NAME.toUpperCase()}
-⚡ *OWNER:* ${config.OWNER_NAME || "AHMAD HASSAN"} 🚩
+⚡ *OWNER:* ${OWNER_NAME} 
 ⚡ *UPTIME:* ${uptime}
 ⚡ *COMMANDS:* ${Object.keys(commands).length}
 ⚡ *MODE:* ${config.MODE || "public"}
@@ -65,7 +65,7 @@ _______________________________
 _
 ${menuSections}
 _______________________________
-> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ ʜᴀssᴀɴ*`;
+> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`;
 
         // Image URL Selection
         let imageToUse = "https://files.catbox.moe/ptvl03.jpg";
@@ -97,4 +97,3 @@ _______________________________
         reply(`Error: ${e.message}`); 
     } 
 });
-            
