@@ -21,13 +21,13 @@ const toSmallCaps = (text) => {
     return text.toLowerCase().split('').map(char => smallCapsMap[char] || char).join('');
 };
 
-// --- PREMIUM SHADOW CATEGORY STYLE ---
+// --- IMAGE STYLE FROM SCREENSHOT ---
 const formatCategory = (category, cmds) => {
     const validCmds = cmds.filter(cmd => cmd.pattern && cmd.pattern.trim() !== '');
     if (validCmds.length === 0) return ''; 
     
     let title = `\n*✦ ─── [ ${category.toUpperCase()} ] ─── ✦*\n`;
-    let body = validCmds.map(cmd => `*🔹* \`${cmd.pattern}\``).join('\n');
+    let body = validCmds.map(cmd => `*⚡* ${toSmallCaps(cmd.pattern)}`).join('\n');
     return `${title}${body}\n`;
 };
 
@@ -35,7 +35,7 @@ cmd({
     pattern: "menu",
     alias: ["m", "help", "allmenu"],
     category: "main",
-    react: "🚩",
+    react: "⚡",
     filename: __filename
 },
 async (conn, mek, m, { from, pushname, reply }) => {
@@ -47,22 +47,24 @@ async (conn, mek, m, { from, pushname, reply }) => {
             menuSections += formatCategory(cat, catCmds);
         });
 
-        const BOT_NAME = config.BOT_NAME || "LAVENDER-MD";
+        const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
         const uptime = runtime(process.uptime());
 
-        // --- EXCLUSIVE SHADOW INTERFACE ---
+        // --- SCREENSHOT EXACT MATCH DESIGN WITH YOUR CHANGES ---
         let dec = `
-*✨ ${BOT_NAME.toUpperCase()} PREMIUM ✨*
+✨ *HASSAN 🚩* ✨
 
-*⚡ USER:* ${pushname || 'User'}
-*⚡ OWNER:* ${config.OWNER_NAME || "Ahmad Hassan"}
-*⚡ UPTIME:* ${uptime}
-*⚡ COMMANDS:* ${Object.keys(commands).length}
-*⚡ MODE:* ${config.MODE || "Public"}
+⚡ *BOT NAME:* ${BOT_NAME.toUpperCase()}
+⚡ *OWNER:* ${config.OWNER_NAME || "AHMAD HASSAN"} 🚩
+⚡ *UPTIME:* ${uptime}
+⚡ *COMMANDS:* ${Object.keys(commands).length}
+⚡ *MODE:* ${config.MODE || "public"}
 
-────────────────────────
+_______________________________
+
+_
 ${menuSections}
-────────────────────────
+_______________________________
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ ʜᴀssᴀɴ*`;
 
         // Image URL Selection
@@ -95,3 +97,4 @@ ${menuSections}
         reply(`Error: ${e.message}`); 
     } 
 });
+            
