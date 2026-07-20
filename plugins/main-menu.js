@@ -21,21 +21,21 @@ const toSmallCaps = (text) => {
     return text.toLowerCase().split('').map(char => smallCapsMap[char] || char).join('');
 };
 
-// --- MINI PAGE / DASHBOARD CATEGORY STYLE ---
+// --- HACKER TERMINAL CATEGORY STYLE ---
 const formatCategory = (category, cmds) => {
     const validCmds = cmds.filter(cmd => cmd.pattern && cmd.pattern.trim() !== '');
     if (validCmds.length === 0) return ''; 
     
-    let title = `\n📂 *[ ${category.toUpperCase()} PANEL ]*\n`;
-    let body = validCmds.map(cmd => ` ├─⚙️ ${toSmallCaps(cmd.pattern)}`).join('\n');
-    return `${title}${body}\n └───────────────────\n`;
+    let title = `\n//--- ${category.toUpperCase()} _\n`;
+    let body = validCmds.map(cmd => `$ ${cmd.pattern}`).join('\n');
+    return `${title}${body}\n`;
 };
 
 cmd({
     pattern: "menu",
     alias: ["m", "help", "allmenu"],
     category: "main",
-    react: "📊",
+    react: "💀",
     filename: __filename
 },
 async (conn, mek, m, { from, pushname, reply }) => {
@@ -50,18 +50,21 @@ async (conn, mek, m, { from, pushname, reply }) => {
         const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
         const uptime = runtime(process.uptime());
 
-        // --- DASHBOARD / PAGE INTERFACE ---
+        // --- CYBER TERMINAL INTERFACE ---
         let dec = `
-🖥️ *${BOT_NAME.toUpperCase()} : MINI DASHBOARD*
-🌐 *STATUS:* SYSTEM ACTIVE
-───────────────────
-👤 *CLIENT:* ${pushname || 'User'}
-👑 *HOST:* ${config.OWNER_NAME || "Ahmad Hassan"}
-⏱️ *UPTIME:* ${uptime}
-📊 *TOTAL INDEX:* ${Object.keys(commands).length}
-⚙️ *CORE MODE:* ${config.MODE || "Public"}
-───────────────────
+[+] ROOT@${BOT_NAME.toUpperCase()}:~
+
+> INJECTING DETAILS...
+> ACCESS GRANTED TO: ${pushname || 'User'}
+
+# SYSTEM_INFO:
+- OPERATOR : ${config.OWNER_NAME || "Ahmad Hassan"}
+- RUNTIME  : ${uptime}
+- MODULES  : ${Object.keys(commands).length}
+- STATUS   : ${config.MODE || "Public"}
+
 ${menuSections}
+# BYPASS_COMPLETED.
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ ʜᴀssᴀɴ*`;
 
         // Image URL Selection
@@ -94,4 +97,4 @@ ${menuSections}
         reply(`Error: ${e.message}`); 
     } 
 });
-    
+ 
