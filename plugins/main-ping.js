@@ -4,6 +4,17 @@ import { cmd, commands } from '../command.js';
 
 const __filename = fileURLToPath(import.meta.url);
 
+// Helper function for small caps text
+const toSmallCaps = (text) => {
+    if (!text || typeof text !== 'string') return '';
+    const smallCapsMap = {
+        'a': 'ᴀ', 'b': 'ʙ', 'c': 'ᴄ', 'd': 'ᴅ', 'e': 'ᴇ', 'f': 'ғ', 'g': 'ɢ', 'h': 'ʜ', 'i': 'ɪ',
+        'j': 'ᴊ', 'k': 'ᴋ', 'l': 'ʟ', 'm': 'ᴍ', 'n': 'ɴ', 'o': 'ᴏ', 'p': 'ᴘ', 'q': 'ǫ', 'r': 'ʀ',
+        's': 's', 't': 'ᴛ', 'u': 'ᴜ', 'v': 'ᴠ', 'w': 'ᴡ', 'x': 'x', 'y': 'ʏ', 'z': 'ᴢ'
+    };
+    return text.toLowerCase().split('').map(char => smallCapsMap[char] || char).join('');
+};
+
 // --- PING COMMAND (MODERN UI) ---
 cmd({
     pattern: "ping",
@@ -28,19 +39,31 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
 
         const end = new Date().getTime();
         const responseTime = (end - start) / 1000;
+        
+        const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
+        const OWNER_NAME = config.OWNER_NAME || "AHMAD HASSAN";
 
-        // Ultra Sleek Text Design (ORIGINAL)
-        const text = `*ᴘᴏɴɢ...!!* 📡\n\n*🚀 sᴘᴇᴇᴅ:* ${responseTime.toFixed(2)}ms\n*🧬 sᴛᴀᴛᴜs:* Online\n\n> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ-ᴍᴅ*`;
+        // Ultra Sleek Text Design WITH ROYAL MATCH
+        const text = `
+*✨ ${BOT_NAME.toUpperCase()} ✨*
+
+*╭══════════════════⊷*
+*│ ⚡ ᴘᴏɴɢ...!!* 📡
+*│ 🚀 sᴘᴇᴇᴅ:* ${responseTime.toFixed(2)}ms
+*│ 🧬 sᴛᴀᴛᴜs:* Online
+*╰══════════════════⊷*
+
+> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`;
 
         await conn.sendMessage(from, {
-            text,
+            text: text.trim(),
             contextInfo: {
                 mentionedJid: [sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363426472060176@newsletter',
-                    newsletterName: "AHMAD-MD TECH",
+                    newsletterName: "AHMADTech",
                     serverMessageId: 143
                 }
             }
@@ -70,30 +93,31 @@ async (conn, mek, m, { from, reply }) => {
         let status;
         let indicator;
         if (ping < 1000) {
-            status = "𝐄𝐱𝐜𝐞𝐥𝐥𝐞𝐧𝐭";
+            status = "ᴇxᴄᴇʟʟᴇɴᴛ";
             indicator = "🟢";
         } else if (ping < 1500) {
-            status = "𝐆𝐨ｏ𝐝";
+            status = "ɢᴏᴏᴅ";
             indicator = "🟡";
         } else {
-            status = "𝐋𝐚𝐠𝐠𝐲";
+            status = "ʟᴀɢɢʏ";
             indicator = "🔴";
         }
 
-        // Dashboard Style Design (ORIGINAL)
-        const msg = `
-┏━━━━━━━━━━━━━━━━━━┈⊷
-┃  ✨ *AHMAD-MD SYSTEM* ✨
-┗━━━━━━━━━━━━━━━━━━┈⊷
-┃
-┃ 📡 *Latency:* ${ping} ms
-┃ 🧠 *Quality:* ${status} ${indicator}
-┃ ⚡ *Performance:* Stable
-┃ 🛰️ *Server:* Global-High
-┃
-┗━━━━━━━━━━━━━━━━━━┈⊷
+        const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
+        const OWNER_NAME = config.OWNER_NAME || "AHMAD HASSAN";
 
-> *Created by Ahmad Hassan*`;
+        // Dashboard Style Design MATCHED TO MENU
+        const msg = `
+*✨ ${BOT_NAME.toUpperCase()} ✨*
+
+*╭══════════════════⊷*
+*│ 📡 LATENCY:* ${ping} ms
+*│ 🧠 QUALITY:* ${status.toUpperCase()} ${indicator}
+*│ ⚡ PERFORMANCE:* Stable
+*│ 🛰️ SERVER:* Global-High
+*╰══════════════════⊷*
+
+> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`;
 
         await conn.sendMessage(from, { 
             text: msg.trim(),
@@ -102,7 +126,7 @@ async (conn, mek, m, { from, reply }) => {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363426472060176@newsletter',
-                    newsletterName: "AHMAD-MD TECH",
+                    newsletterName: "AHMADTech",
                     serverMessageId: 143
                 }
             }
@@ -113,4 +137,3 @@ async (conn, mek, m, { from, reply }) => {
         reply(`⚠️ Error: ${e.message}`);
     }
 });
-    
