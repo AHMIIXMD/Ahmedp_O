@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Helper function for small caps text
+// Helper function for Premium Small Caps text
 const toSmallCaps = (text) => {
     if (!text || typeof text !== 'string') return '';
     const smallCapsMap = {
@@ -21,21 +21,21 @@ const toSmallCaps = (text) => {
     return text.toLowerCase().split('').map(char => smallCapsMap[char] || char).join('');
 };
 
-// --- ROYAL LUXURY CATEGORY STYLE ---
+// --- MINI PAGE / DASHBOARD CATEGORY STYLE ---
 const formatCategory = (category, cmds) => {
     const validCmds = cmds.filter(cmd => cmd.pattern && cmd.pattern.trim() !== '');
     if (validCmds.length === 0) return ''; 
     
-    let title = `\n*◈═══〔 ${category.toUpperCase()} 〕═══◈*\n`;
-    let body = validCmds.map(cmd => `*⚡︎* ${toSmallCaps(cmd.pattern)}`).join('\n');
-    return `${title}${body}\n`;
+    let title = `\n📂 *[ ${category.toUpperCase()} PANEL ]*\n`;
+    let body = validCmds.map(cmd => ` ├─⚙️ ${toSmallCaps(cmd.pattern)}`).join('\n');
+    return `${title}${body}\n └───────────────────\n`;
 };
 
 cmd({
     pattern: "menu",
     alias: ["m", "help", "allmenu"],
     category: "main",
-    react: "⚡",
+    react: "📊",
     filename: __filename
 },
 async (conn, mek, m, { from, pushname, reply }) => {
@@ -50,18 +50,18 @@ async (conn, mek, m, { from, pushname, reply }) => {
         const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
         const uptime = runtime(process.uptime());
 
-        // --- ROYAL INTERFACE DESIGN ---
+        // --- DASHBOARD / PAGE INTERFACE ---
         let dec = `
-*✨ ${BOT_NAME.toUpperCase()} ✨*
-
-*╭══════════════════⊷*
-*│ 👤 OWNER:* ${config.OWNER_NAME || "Ahmad Hassan"}
-*│ 🚀 UPTIME:* ${uptime}
-*│ 📂 COMMANDS:* ${Object.keys(commands).length}
-*│ 🛠️ MODE:* ${config.MODE || "Public"}
-*╰══════════════════⊷*
+🖥️ *${BOT_NAME.toUpperCase()} : MINI DASHBOARD*
+🌐 *STATUS:* SYSTEM ACTIVE
+───────────────────
+👤 *CLIENT:* ${pushname || 'User'}
+👑 *HOST:* ${config.OWNER_NAME || "Ahmad Hassan"}
+⏱️ *UPTIME:* ${uptime}
+📊 *TOTAL INDEX:* ${Object.keys(commands).length}
+⚙️ *CORE MODE:* ${config.MODE || "Public"}
+───────────────────
 ${menuSections}
-*──╼『 ${BOT_NAME} 』╾──*
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ ʜᴀssᴀɴ*`;
 
         // Image URL Selection
@@ -94,3 +94,4 @@ ${menuSections}
         reply(`Error: ${e.message}`); 
     } 
 });
+    
