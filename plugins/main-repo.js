@@ -34,7 +34,7 @@ const isValidImageUrl = (url) => {
 cmd({
     pattern: "repo",
     alias: ["sc", "script", "repository", "deploy"],
-    desc: "Get AHMAD-MD deploy link and information",
+    desc: "Get HASSAN-MD deploy link and information",
     react: "📂",
     category: "main",
     filename: __filename,
@@ -45,14 +45,14 @@ async (conn, mek, m, { from, reply, userConfig }) => {
         const OWNER_NAME = userConfig?.OWNER_NAME || config.OWNER_NAME || 'AHMAD HASSAN';
         const BOT_IMAGE = userConfig?.BOT_IMAGE || userConfig?.BOT_MEDIA_URL || config.BOT_IMAGE || config.BOT_MEDIA_URL;
         
-        const deployLink = 'https://ahmad-md.vercel.app';
+        const deployLink = 'https://hassanxmd.vercel.app';
 
         // --- MATCHED MODERN UI DESIGN ---
         const formattedInfo = `
 ✨ *${BOT_NAME.toUpperCase()}* ✨
 
 *╭══════════════════⊷*
-*│ 📂 sᴄʀɪᴘᴛ:* AHMAD-MD
+*│ 📂 sᴄʀɪᴘᴛ:* HASSAN-MD
 *│ 👤 ᴏᴡɴᴇʀ:* ${OWNER_NAME}
 *│ 📦 ᴠᴇʀsɪᴏɴ:* 1.0.0
 *│ ⚡ ᴇɴɢɪɴᴇ:* Node.js / Baileys
@@ -72,7 +72,7 @@ async (conn, mek, m, { from, reply, userConfig }) => {
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`.trim();
 
         let imageToUse;
-        const localImagePath = path.join(__dirname, '../lib/AHMADmd.jpg');
+        const localImagePath = path.join(__dirname, '../lib/HASSANmd.jpg');
         
         if (isValidImageUrl(BOT_IMAGE)) {
             try {
