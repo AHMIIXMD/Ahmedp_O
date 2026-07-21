@@ -67,8 +67,8 @@ ${menuSections}
 _______________________________
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`;
 
-        // Image URL Selection
-        let imageToUse = "https://files.catbox.moe/ptvl03.jpg";
+        // Image URL Selection (UPDATED NEW IMAGE LINK)
+        let imageToUse = "https://files.catbox.moe/szdeci.jpg";
 
         // 1. Menu Image Send with Caption
         await conn.sendMessage(from, { 
@@ -97,3 +97,4 @@ _______________________________
         reply(`Error: ${e.message}`); 
     } 
 });
+    
