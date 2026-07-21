@@ -62,7 +62,7 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363426472060176@newsletter',
+                    newsletterJid: '120363427595490126@newsletter',
                     newsletterName: "AHMADTech",
                     serverMessageId: 143
                 }
@@ -125,7 +125,7 @@ async (conn, mek, m, { from, reply }) => {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363426472060176@newsletter',
+                    newsletterJid: '120363427595490126@newsletter',
                     newsletterName: "AHMADTech",
                     serverMessageId: 143
                 }
@@ -137,4 +137,4 @@ async (conn, mek, m, { from, reply }) => {
         reply(`⚠️ Error: ${e.message}`);
     }
 });
-  
+                    
