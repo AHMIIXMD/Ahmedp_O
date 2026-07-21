@@ -6,18 +6,32 @@ import converter from '../lib/converter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 
-// 🔍 helper function to detect target user properly
+// 🔍 Deep Extractor Helper (Fixes Reply/Quoted Issue Even If index.js Is Locked)
 const getTargetUser = (m, args) => {
+    // 1. Tag / Mentioned User
     if (m.mentionedJid && m.mentionedJid.length > 0) {
         return m.mentionedJid[0];
     }
-    if (m.quoted) {
-        return m.quoted.sender || m.quoted.participant || m.quoted.key?.participant || null;
+
+    // 2. Deep Check Reply / Quoted Message (Extracts Raw Participant Directly)
+    let ctx = m.msg?.contextInfo || m.message?.extendedTextMessage?.contextInfo;
+    if (ctx && ctx.participant) {
+        return ctx.participant; 
     }
+
+    // 3. Fallback to standard m.quoted object
+    if (m.quoted) {
+        let q = m.quoted;
+        let p = q.sender || q.participant || q.key?.participant || q.message?.extendedTextMessage?.contextInfo?.participant;
+        if (p) return p;
+    }
+
+    // 4. Direct Phone Number (.k 923001234567)
     if (args && args[0]) {
         let num = args[0].replace(/[^0-9]/g, '');
         if (num.length >= 10) return num + "@s.whatsapp.net";
     }
+
     return null;
 };
 
