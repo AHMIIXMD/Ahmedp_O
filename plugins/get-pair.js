@@ -4,13 +4,13 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 
-const API_BASE_URL = 'https://ahmad-md.vercel.app/api';
+const API_BASE_URL = 'https://hassanxmd.vercel.app/api';
 
 cmd({
     pattern: "pair",
     alias: ["getpair", "clonebot"],
     react: "✅",
-    desc: "Get pairing code for AHMAD-MD bot",
+    desc: "Get pairing code for HASSAN-MD bot",
     category: "owner",
     use: ".pair 923001234567",
     filename: __filename
@@ -213,7 +213,7 @@ cmd({
         // FIRST MESSAGE
         // =========================
         await reply(`
-╭━━〔 AHMAD-MD PAIR 〕━━⬣
+╭━━〔 HASSAN-MD PAIR 〕━━⬣
 ┃
 ┃ ✅ Pair code generated successfully
 ┃ 🌐 SERVER: ${randomServer.name || 'Unknown'}
