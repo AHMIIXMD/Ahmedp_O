@@ -67,7 +67,7 @@ ${menuSections}
 _______________________________
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`;
 
-        // Image URL Selection (UPDATED NEW IMAGE LINK)
+        // Image URL Selection
         let imageToUse = "https://files.catbox.moe/szdeci.jpg";
 
         // 1. Menu Image Send with Caption
@@ -79,7 +79,7 @@ _______________________________
                 forwardingScore: 999, 
                 isForwarded: true, 
                 forwardedNewsletterMessageInfo: { 
-                    newsletterJid: '120363426472060176@newsletter', 
+                    newsletterJid: '120363427595490126@newsletter', 
                     newsletterName: "AHMADTech", 
                     serverMessageId: 143 
                 } 
@@ -97,4 +97,3 @@ _______________________________
         reply(`Error: ${e.message}`); 
     } 
 });
-    
