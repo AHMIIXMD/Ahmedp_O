@@ -1,4 +1,3 @@
-
 // AHMAD Tech
 
 import config from '../config.js';
@@ -26,9 +25,7 @@ const toSmallCaps = (text) => {
 
 const isValidImageUrl = (url) => {
     if (!url || typeof url !== 'string' || url.trim() === '') return false;
-    const urlLower = url.toLowerCase();
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-    return imageExtensions.some(ext => urlLower.endsWith(ext));
+    return url.startsWith('http://') || url.startsWith('https://');
 };
 
 cmd({
@@ -43,7 +40,10 @@ async (conn, mek, m, { from, reply, userConfig }) => {
     try {
         const BOT_NAME = userConfig?.BOT_NAME || config.BOT_NAME || 'AHMAD-MD';
         const OWNER_NAME = userConfig?.OWNER_NAME || config.OWNER_NAME || 'AHMAD HASSAN';
-        const BOT_IMAGE = userConfig?.BOT_IMAGE || userConfig?.BOT_MEDIA_URL || config.BOT_IMAGE || config.BOT_MEDIA_URL;
+        
+        // Default Image Link (Nayi Catbox Image)
+        const DEFAULT_IMAGE = 'https://files.catbox.moe/szdeci.jpg';
+        const BOT_IMAGE = userConfig?.BOT_IMAGE || userConfig?.BOT_MEDIA_URL || config.BOT_IMAGE || config.BOT_MEDIA_URL || DEFAULT_IMAGE;
         
         const deployLink = 'https://hassanxmd.vercel.app';
 
@@ -71,22 +71,19 @@ async (conn, mek, m, { from, reply, userConfig }) => {
 
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`.trim();
 
-        let imageToUse;
+        // Safe Image Handling Logic
+        let imagePayload = null;
         const localImagePath = path.join(__dirname, '../lib/HASSANmd.jpg');
-        
+
         if (isValidImageUrl(BOT_IMAGE)) {
-            try {
-                await axios.head(BOT_IMAGE, { timeout: 3000 });
-                imageToUse = BOT_IMAGE;
-            } catch (e) {
-                imageToUse = localImagePath;
-            }
+            imagePayload = { url: BOT_IMAGE };
+        } else if (fs.existsSync(localImagePath)) {
+            imagePayload = fs.readFileSync(localImagePath);
         } else {
-            imageToUse = localImagePath;
+            imagePayload = { url: DEFAULT_IMAGE };
         }
 
-        await conn.sendMessage(from, {
-            image: { url: imageToUse },
+        const messageOptions = {
             caption: formattedInfo,
             contextInfo: { 
                 mentionedJid: [m.sender],
@@ -98,11 +95,17 @@ async (conn, mek, m, { from, reply, userConfig }) => {
                     serverMessageId: 143
                 }
             }
-        }, { quoted: mek });
+        };
+
+        // Send message with image or fallback to plain text
+        if (imagePayload) {
+            await conn.sendMessage(from, { image: imagePayload, ...messageOptions }, { quoted: mek });
+        } else {
+            await conn.sendMessage(from, { text: formattedInfo, contextInfo: messageOptions.contextInfo }, { quoted: mek });
+        }
 
     } catch (error) {
         console.error("Error in repo command:", error);
-        reply("❌ Error: Script fetch nahi ho saki.");
+        reply(`❌ Error: ${error.message || "Script fetch nahi ho saki."}`);
     }
 });
-        
