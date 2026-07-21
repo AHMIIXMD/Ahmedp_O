@@ -6,6 +6,21 @@ import converter from '../lib/converter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 
+// 🔍 helper function to detect target user properly
+const getTargetUser = (m, args) => {
+    if (m.mentionedJid && m.mentionedJid.length > 0) {
+        return m.mentionedJid[0];
+    }
+    if (m.quoted) {
+        return m.quoted.sender || m.quoted.participant || m.quoted.key?.participant || null;
+    }
+    if (args && args[0]) {
+        let num = args[0].replace(/[^0-9]/g, '');
+        if (num.length >= 10) return num + "@s.whatsapp.net";
+    }
+    return null;
+};
+
 // ==================== UNMUTE COMMAND ====================
 cmd({
     pattern: "unmute",
@@ -111,17 +126,14 @@ cmd({
     category: "group",
     react: "💀",
     filename: __filename
-}, async (conn, mek, m, { from, isCreator, isBotAdmins, isAdmins, isGroup, quoted, reply, botNumber2, botNumber }) => {
+}, async (conn, mek, m, { from, isCreator, isBotAdmins, isAdmins, isGroup, args, reply, botNumber2, botNumber }) => {
     try {
         if (!isGroup) return await reply("⚠️ This command only works in groups.");
         if (!isBotAdmins) return await reply("❌ I must be admin to remove someone.");
         if (!isCreator && !isAdmins) return await reply("🔐 Only bot owner or group admins can use this command.");
 
-        if (!m.quoted && (!m.mentionedJid || m.mentionedJid.length === 0)) {
-            return await reply("❓ You did not give me a user to remove!");
-        }
-        let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : null;
-        if (!users) return await reply("⚠️ Couldn't determine target user.");
+        let users = getTargetUser(m, args);
+        if (!users) return await reply("❓ You did not give me a user to remove! Reply to a message, tag a user, or type their number.");
 
         if (users === botNumber || users === botNumber2) return await reply("🤖 I can't kick myself!");
         const self = conn.user.id.split(":")[0] + '@s.whatsapp.net';
@@ -144,17 +156,14 @@ cmd({
     category: "group",
     react: "💀",
     filename: __filename
-}, async (conn, mek, m, { from, isCreator, isBotAdmins, isAdmins, isGroup, quoted, reply, botNumber2, botNumber }) => {
+}, async (conn, mek, m, { from, isCreator, isBotAdmins, isAdmins, isGroup, args, reply, botNumber2, botNumber }) => {
     try {
         if (!isGroup) return await reply("⚠️ This command only works in groups.");
         if (!isBotAdmins) return await reply("❌ I must be admin to promote someone.");
         if (!isAdmins && !isCreator) return await reply("🔐 Only group admins or owner can use this command.");
 
-        if (!m.quoted && (!m.mentionedJid || m.mentionedJid.length === 0)) {
-            return await reply("❓ You did not give me a user to promote!");
-        }
-        let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : null;
-        if (!users) return await reply("⚠️ Couldn't determine target user.");
+        let users = getTargetUser(m, args);
+        if (!users) return await reply("❓ You did not give me a user to promote! Reply to a message, tag a user, or type their number.");
 
         if (users === botNumber || users === botNumber2) return await reply("🤖 I can't promote myself!");
         const self = conn.user.id.split(":")[0] + '@s.whatsapp.net';
@@ -177,17 +186,14 @@ cmd({
     category: "group",
     react: "💀",
     filename: __filename
-}, async (conn, mek, m, { from, isCreator, isBotAdmins, isAdmins, isGroup, quoted, reply, botNumber2, botNumber }) => {
+}, async (conn, mek, m, { from, isCreator, isBotAdmins, isAdmins, isGroup, args, reply, botNumber2, botNumber }) => {
     try {
         if (!isGroup) return await reply("⚠️ This command only works in groups.");
         if (!isBotAdmins) return await reply("❌ I must be admin to demote someone.");
         if (!isAdmins && !isCreator) return await reply("🔐 Only group admins or owner can use this command.");
 
-        if (!m.quoted && (!m.mentionedJid || m.mentionedJid.length === 0)) {
-            return await reply("❓ You did not give me a user to demote!");
-        }
-        let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : null;
-        if (!users) return await reply("⚠️ Couldn't determine target user.");
+        let users = getTargetUser(m, args);
+        if (!users) return await reply("❓ You did not give me a user to demote! Reply to a message, tag a user, or type their number.");
 
         if (users === botNumber || users === botNumber2) return await reply("🤖 I can't demote myself!");
         const self = conn.user.id.split(":")[0] + '@s.whatsapp.net';
@@ -807,29 +813,15 @@ cmd({
     category: "group",
     filename: __filename,
     react: "➕"
-}, async (conn, mek, m, { from, args, quoted, mentionedJid, isGroup, isBotAdmins, isCreator, reply }) => {
+}, async (conn, mek, m, { from, args, isGroup, isBotAdmins, isCreator, reply }) => {
     try {
         if (!isGroup) return await reply("⚠️ Group only.");
         if (!isBotAdmins) return await reply("❌ I need admin.");
         if (!isCreator) return await reply("🔐 Owner only.");
         
-        let userJid = null;
-        
-        if (!quoted && (!mentionedJid || mentionedJid.length === 0) && !args[0]) {
-            return await reply("❓ Please mention user, quote, or provide number!");
-        }
-        
-        if (mentionedJid && mentionedJid.length > 0) {
-            userJid = mentionedJid[0];
-        } else if (quoted) {
-            userJid = quoted.sender;
-        } else if (args[0]) {
-            const num = args[0].replace(/[^0-9]/g, '');
-            if (num.length >= 10) userJid = num + "@s.whatsapp.net";
-        }
-        
-        if (!userJid) return await reply("⚠️ Couldn't determine user.");
-        
+        let userJid = getTargetUser(m, args);
+        if (!userJid) return await reply("❓ Please mention user, reply to message, or provide phone number!");
+
         await conn.groupParticipantsUpdate(from, [userJid], "add");
         await reply(`✅ Added!`, { mentions: [userJid] });
 
