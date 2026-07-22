@@ -22,27 +22,37 @@ cmd(
     },
     async (conn, mek, m, { quoted, args, q, reply, from, userConfig }) => {
 
-        // ✅ FIX: More robust quoted message detection
         const quotedMsg = mek.quoted || quoted;
         if (!quotedMsg) return reply(`*Reply to any Image, Video, GIF, or Sticker*`);
 
-        // ✅ FIX: Handle multiple possible mtype formats
-        let mime = quotedMsg.mtype || quotedMsg.type || "";
-        
-        // Normalize mime — some Baileys versions return full type, some short
-        if (mime.includes("image")) mime = "imageMessage";
-        else if (mime.includes("video")) mime = "videoMessage";
-        else if (mime.includes("sticker")) mime = "stickerMessage";
-        
+        // ✅ KEY FIX: Baileys stores message type as the first key inside .message object
+        let mime = quotedMsg.mtype
+            || quotedMsg.type
+            || (quotedMsg.message ? Object.keys(quotedMsg.message)[0] : "")
+            || "";
+
+        // Handle viewOnce images/videos (nested inside viewOnceMessage)
+        if (mime === "viewOnceMessage" || mime === "viewOnceMessageV2") {
+            const inner = quotedMsg.message?.viewOnceMessage?.message
+                || quotedMsg.message?.viewOnceMessageV2?.message
+                || {};
+            mime = Object.keys(inner)[0] || mime;
+        }
+
+        // Normalize to simple type names
+        if (mime.toLowerCase().includes("image")) mime = "imageMessage";
+        else if (mime.toLowerCase().includes("video")) mime = "videoMessage";
+        else if (mime.toLowerCase().includes("sticker")) mime = "stickerMessage";
+
         const defaultPackName = userConfig?.STICKER_NAME || config.STICKER_NAME || "𝐀͢ͱ꧊ϻ͒͜𝛂͜𝛛🚩";
         let pack = q ? q : defaultPackName;
-        
+
         try {
             let media, stickerBuffer;
-            
+
             if (mime === "imageMessage" || mime === "stickerMessage") {
                 media = await quotedMsg.download();
-                
+
                 let sticker = new Sticker(media, {
                     pack: pack,
                     type: StickerTypes.FULL,
@@ -54,9 +64,8 @@ cmd(
                 stickerBuffer = await sticker.toBuffer();
 
             } else if (mime === "videoMessage") {
-                // ✅ wa-sticker-formatter handles video natively — no manual conversion needed
                 media = await quotedMsg.download();
-                
+
                 let sticker = new Sticker(media, {
                     pack: pack,
                     type: StickerTypes.FULL,
@@ -68,12 +77,11 @@ cmd(
                 stickerBuffer = await sticker.toBuffer();
 
             } else {
-                // ✅ Show what mime was detected — helpful for debugging
                 return reply(`*Please reply to an image, video, GIF, or sticker*\n_(Detected type: ${mime || "unknown"})_`);
             }
-            
+
             return conn.sendMessage(mek.chat, { sticker: stickerBuffer }, { quoted: mek });
-            
+
         } catch (error) {
             console.error("Sticker creation error:", error);
             return reply(`*Error creating sticker: ${error.message}*`);
