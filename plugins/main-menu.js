@@ -1,4 +1,4 @@
-import config from '../config.js';
+Import config from '../config.js';
 import { cmd, commands } from '../command.js';
 import path from 'path';
 import os from "os";
@@ -67,8 +67,8 @@ ${menuSections}
 _______________________________
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`;
 
-        // Image URL Selection
-        let imageToUse = "https://files.catbox.moe/szdeci.jpg";
+        // Image URL Selection (Updated)
+        let imageToUse = "https://files.catbox.moe/9qhlwr.jpg";
 
         // 1. Menu Image Send with Caption
         await conn.sendMessage(from, { 
@@ -97,3 +97,4 @@ _______________________________
         reply(`Error: ${e.message}`); 
     } 
 });
+    
