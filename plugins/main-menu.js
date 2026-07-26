@@ -67,10 +67,10 @@ ${menuSections}
 _______________________________
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`;
 
-        // Image URL Selection
+        // Updated Image URL
         let imageToUse = "https://files.catbox.moe/9qhlwr.jpg";
 
-        // 1. Menu Image Send with Caption
+        // Send Menu Image with Caption (Audio removed)
         await conn.sendMessage(from, { 
             image: { url: imageToUse },
             caption: dec, 
@@ -85,6 +85,8 @@ _______________________________
                 } 
             } 
         }, { quoted: mek });
+
+        // Audio part completely removed
 
     } catch (e) { 
         reply(`Error: ${e.message}`); 
