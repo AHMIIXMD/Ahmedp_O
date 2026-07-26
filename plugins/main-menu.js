@@ -47,8 +47,8 @@ async (conn, mek, m, { from, pushname, reply }) => {
             menuSections += formatCategory(cat, catCmds);
         });
 
-        const BOT_NAME = config.BOT_NAME || "HASAN-MD";
-        const OWNER_NAME = config.OWNER_NAME || "HASAN ZAHEER";
+        const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
+        const OWNER_NAME = config.OWNER_NAME || "AHMAD HASSAN";
         const uptime = runtime(process.uptime());
 
         // --- NEW ORDER: BOT NAME FIRST, THEN OWNER & DETAILS ---
