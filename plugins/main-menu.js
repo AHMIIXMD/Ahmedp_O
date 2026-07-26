@@ -86,13 +86,6 @@ _______________________________
             } 
         }, { quoted: mek });
 
-        // 2. Audio File Send (As Audio, not Voice Note)
-        await conn.sendMessage(from, {
-            audio: { url: "https://files.catbox.moe/hoi9ur.mp3" },
-            mimetype: 'audio/mpeg',
-            ptt: false
-        }, { quoted: mek });
-
     } catch (e) { 
         reply(`Error: ${e.message}`); 
     } 
