@@ -47,8 +47,8 @@ async (conn, mek, m, { from, pushname, reply }) => {
             menuSections += formatCategory(cat, catCmds);
         });
 
-        const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
-        const OWNER_NAME = config.OWNER_NAME || "AHMAD HASSAN";
+        const BOT_NAME = config.BOT_NAME || "HASAN-MD";
+        const OWNER_NAME = config.OWNER_NAME || "HASAN ZAHEER";
         const uptime = runtime(process.uptime());
 
         // --- NEW ORDER: BOT NAME FIRST, THEN OWNER & DETAILS ---
@@ -67,7 +67,7 @@ ${menuSections}
 _______________________________
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${toSmallCaps(OWNER_NAME)}*`;
 
-        // Image URL Selection (Updated)
+        // Image URL Selection
         let imageToUse = "https://files.catbox.moe/9qhlwr.jpg";
 
         // 1. Menu Image Send with Caption
@@ -97,4 +97,3 @@ _______________________________
         reply(`Error: ${e.message}`); 
     } 
 });
-    
